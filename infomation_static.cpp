@@ -1406,14 +1406,14 @@ void StaticInfo::initMapInfoS()
         parkNodeInfoS.insert(201, Node_( QList<int>()<<202<<214, QList<int>()<<201<<202, Position(2340,1560,201) ));
         parkNodeInfoS.insert(202, Node_( QList<int>()<<203<<205, QList<int>()<<203<<204, Position(2340,1617,202) ));
         parkNodeInfoS.insert(203, Node_( QList<int>()<<204, QList<int>()<<205, Position(2185,1934,203) ));
-        parkNodeInfoS.insert(204, Node_( QList<int>()<<0, QList<int>()<<0, Position(2029,2250,204) ));
+        parkNodeInfoS.insert(204, Node_( QList<int>()<<223, QList<int>()<<222, Position(2029,2250,204) ));
         parkNodeInfoS.insert(205, Node_( QList<int>()<<206<<212, QList<int>()<<206<<207, Position(2340,1799,205) ));
         parkNodeInfoS.insert(206, Node_( QList<int>()<<207<<209, QList<int>()<<208<<209, Position(2340,2061,206) ));
         parkNodeInfoS.insert(207, Node_( QList<int>()<<208, QList<int>()<<210, Position(2185,2378,207) ));
-        parkNodeInfoS.insert(208, Node_( QList<int>()<<0, QList<int>()<<0, Position(2029,2694,208) ));
+        parkNodeInfoS.insert(208, Node_( QList<int>()<<224, QList<int>()<<223, Position(2029,2694,208) ));
         parkNodeInfoS.insert(209, Node_( QList<int>()<<210<<216, QList<int>()<<211<<212, Position(2340,2189,209) ));
         parkNodeInfoS.insert(210, Node_( QList<int>()<<211, QList<int>()<<213, Position(2840,2689,210) ));
-        parkNodeInfoS.insert(211, Node_( QList<int>()<<0, QList<int>()<<0, Position(2852,2689,211) ));
+        parkNodeInfoS.insert(211, Node_( QList<int>()<<0, QList<int>()<<0, Position(2958,2689,211) ));
         parkNodeInfoS.insert(212, Node_( QList<int>()<<213, QList<int>()<<214, Position(2940,2399,212) ));
         parkNodeInfoS.insert(213, Node_( QList<int>()<<0, QList<int>()<<0, Position(3215,2399,213) ));
         parkNodeInfoS.insert(214, Node_( QList<int>()<<215, QList<int>()<<215, Position(2940,2161,214) ));
@@ -1425,6 +1425,8 @@ void StaticInfo::initMapInfoS()
         parkNodeInfoS.insert(220, Node_( QList<int>()<<221, QList<int>()<<220, Position(2940,1685,220) ));
         parkNodeInfoS.insert(221, Node_( QList<int>()<<0, QList<int>()<<0, Position(3215,1685,221) ));
         parkNodeInfoS.insert(222, Node_( QList<int>()<<201, QList<int>()<<221, Position(2437,1812,222) ));
+        parkNodeInfoS.insert(223, Node_( QList<int>()<<0, QList<int>()<<0, Position(2029,2358,223) ));
+        parkNodeInfoS.insert(224, Node_( QList<int>()<<0, QList<int>()<<0, Position(2029,2802,224) ));
     }
 
     //park edge
@@ -1450,6 +1452,8 @@ void StaticInfo::initMapInfoS()
         parkEdgeInfoS.insert(219, Edge( QList<int>()<<218<<219, 1, 275, 0, 275, false ));
         parkEdgeInfoS.insert(220, Edge( QList<int>()<<220<<221, 1, 275, 0, 275, false ));
         parkEdgeInfoS.insert(221, Edge( QList<int>()<<222<<201, 3, 370, 42, 271, false ));
+        parkEdgeInfoS.insert(222, Edge( QList<int>()<<204<<223, 1, 108, 0, 108, true ));
+        parkEdgeInfoS.insert(223, Edge( QList<int>()<<208<<224, 1, 108, 0, 108, true ));
     }
 
 

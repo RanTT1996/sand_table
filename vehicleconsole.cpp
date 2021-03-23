@@ -635,11 +635,10 @@ void VehicleConsole::realtimeControl()
         double theta_rad = atan(2*L_mm*sin(alpha_rad)/d_mm);
 
     //计算转角
-        int turnGrade = getGrade(theta_rad);  //根据计算的前轮转角，计算控制量
         if(theta_rad > 0)
-            emit turn(1,turnGrade);//向左，转1档
+            emit turn(1,theta_rad);//向左转
         else
-            emit turn(0,turnGrade);//向右，转1档
+            emit turn(0,theta_rad);//向右转
 
 //计算控制量——速度
         int dir = 1;
@@ -679,58 +678,8 @@ void VehicleConsole::realtimeControl()
         qDebug()<<"D:[debugRouteFollow]"
                 <<"\tPose"<<curX_mm<<curY_mm<<curYaw_rad/3.14159*180<<curSpeed_r_s*2.0*3.14159*0.03
                 <<"\tGoal"<<nextX_mm<<nextY_mm<<beta_rad<<nextPoint<<"/"<<arrivingNode
-                <<"\t\tControl:turn"<<theta_rad/3.14159*180<<"d (grade_"<<turnGrade<<")\tControl:speed"<<setSpeed_m_s<<"\ttype"<<routeType<<curDirection<<dir<<locatedEdge;
+                <<"\t\tControl:turn"<<theta_rad/3.14159*180<<"d\tControl:speed"<<setSpeed_m_s<<"\ttype"<<routeType<<curDirection<<dir<<locatedEdge;
 
-}
-
-/* Function: VehicleConsole::getGrade
- * 根据计算的前轮转角，计算控制量
- */
-int VehicleConsole::getGrade(double theta_rad)
-{
-    int grade = 0;
-    //左转
-    if(theta_rad>0)
-    {
-        if(theta_rad>(15.0/180.0*3.14159))
-            grade = 4;
-        else if(theta_rad>(11.0/180.0*3.14159))//15.0
-            grade = 3;
-        else if(theta_rad>(7.0/180.0*3.14159))//9.0
-            grade = 2;
-        else if(theta_rad>(2.0/180.0*3.14159))//3.0
-            grade = 1;
-        else
-            grade = 0;
-    }
-    else//右转
-    {
-        theta_rad = fabs(theta_rad);
-        if(theta_rad>(14.0/180.0*3.14159))
-            grade = 3;
-        else if(theta_rad>(7.0/180.0*3.14159))
-            grade = 2;
-        else if(theta_rad>(2.0/180.0*3.14159))
-            grade = 1;
-        else
-            grade = 0;
-    }
-
-    /*
-    //左转：转向极限是grade==40，angle==18
-    if(theta_rad>0)
-    {
-        grade = round(40*(theta_rad/(18/180.0*3.14159)));
-        grade = grade>40 ? 40 : grade;
-    }
-    else//右转：转向极限是grade==30，angle==22
-    {
-        grade = round(30*(theta_rad/(22/180.0*3.14159)));
-        grade = grade>30 ? 30 : grade;
-    }
-
-   //*/
-    return grade;
 }
 
 //车路协同
@@ -1429,10 +1378,12 @@ void VehicleConsole::on_btnTestWheelTurn_clicked()//手动转向
     int index=ui->testTurnComboBox->currentIndex();
     int value=ui->testTurnValue->value();
 
+    double angle_rad = value/180.0*3.14159;
+
     if(index==0)
-        emit turn(1,value);//左转，角度value范围0～5
+        emit turn(1,angle_rad);//左转
     else if(index==1)
-        emit turn(0,value);//右转
+        emit turn(0,angle_rad);//右转
 }
 void VehicleConsole::on_stop_clicked()//手动刹车
 {

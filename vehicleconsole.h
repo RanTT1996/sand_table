@@ -84,7 +84,6 @@ private:
     QTimer timerPosCheck;                   //定时器：定时检测位置，并发出控制指令
     int timePC_ms;                          //定时器：定时时间
     void realtimeControl();                 //定时器：实时控制
-    int getGrade(double theta_rad);         //根据计算的前轮转角，计算控制量
 
 private slots:
     void on_PCtimeout();                    //定时检测位置，并发出指令 即函数realtimeControl()
@@ -190,7 +189,7 @@ signals:
     void toStartMotion();                   //启动运动反馈
     void toStopMotion();                    //停止运动反馈
     void run(int dir,double speed_r_s);     //车辆运动，速度单位 r/s
-    void turn(int dir,int angle);           //车辆转向
+    void turn(int dir,double angle_rad);    //车辆转向，角度单位 rad
     void stop();                            //车辆刹车
     void setPID(double p,double i,double d);
 

@@ -124,11 +124,12 @@ void chassisInit()
     wiringPiISR(ctrl_encoder_a,INT_EDGE_RISING,&encoderValAISR);     //设编码器A相位上升沿中断,中断函数:encoderValAISR
 
     //舵机
-    softPwmCreate(ctrl_servo_pwm_sw,0,200);     //软件控制pwm
-    //pinMode(ctrl_hw_pwm,PWM_OUTPUT);          //硬件控制PWM
-    //pwmSetRange(2048);  //脉宽设置
-    //pwmSetClock(512);   //分频系数
-    //pwmSetMode(PWM_MODE_MS);//占空比输出
+    //softPwmCreate(ctrl_servo_pwm_sw,0,200);     //软件控制pwm
+    pinMode(ctrl_servo_pwm_sw,INPUT);
+    pinMode(ctrl_servo_pwm_hw,PWM_OUTPUT);          //硬件控制PWM
+    pwmSetRange(2048);  //脉宽设置
+    pwmSetClock(512);   //分频系数
+    pwmSetMode(PWM_MODE_MS);//占空比输出
 
 //备用与调试相关
     softPwmCreate(pwm_spare_5_0,0,200);
@@ -180,6 +181,7 @@ void setSpeed(int dir, int speed)
 //dir==1表示左转，dir==0表示右转
 void setAngle(int dir, int angle)
 {
+/*
     //软件pwm转向：低分辨率 0.5%
     if(dir==1 && (angle>4||angle<0))
         return;
@@ -189,9 +191,10 @@ void setAngle(int dir, int angle)
 
     if(dir==1||dir==0)
         softPwmWrite(ctrl_servo_pwm_sw, dir==1 ? CALIBRATION_ANGLE_SWPWM-angle : CALIBRATION_ANGLE_SWPWM+angle);
+//*/
 
     //硬件pwm转向：高分辨率  0.05%
-/*
+//*
     if(dir==1 && (angle>40||angle<0))
         return;
 

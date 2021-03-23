@@ -76,7 +76,7 @@ private:
 
 public slots:
     void on_run(int dir, double speed_r_s);                                     //车辆运动
-    void on_turn(int dir,int angle);                                            //车辆转向
+    void on_turn(int dir,double angle_rad);                                            //车辆转向
     void on_stop();                                                             //车辆刹车
     void on_test(int value);                                                             //物理引脚测试
     void on_setPID(double p, double i, double d);                               //设置PID值

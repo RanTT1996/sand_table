@@ -28,7 +28,7 @@ void VehicleMotion::initMotion(QMainWindow* _vehicle, Pose* _posePtr)
 
     //车辆控制
     connect(vehicleConsole,SIGNAL(run(int,double)),this,SLOT(on_run(int,double)),Qt::QueuedConnection);
-    connect(vehicleConsole,SIGNAL(turn(int,int)),this,SLOT(on_turn(int,int)),Qt::QueuedConnection);
+    connect(vehicleConsole,SIGNAL(turn(int,double)),this,SLOT(on_turn(int,double)),Qt::QueuedConnection);
     connect(vehicleConsole,SIGNAL(stop()),this,SLOT(on_stop()),Qt::QueuedConnection);
     connect(vehicleConsole,SIGNAL(test(int)),this,SLOT(on_test(int)),Qt::QueuedConnection);
     connect(vehicleConsole,SIGNAL(setPID(double,double,double)),this,SLOT(on_setPID(double,double,double)),Qt::QueuedConnection);
@@ -93,7 +93,7 @@ void VehicleMotion::on_toStopMotion()
         closeHwPwm();
 
     //编码器
-    encoderTimer->stop();
+        encoderTimer->stop();
 
 
     delete pidTimer;
@@ -116,9 +116,56 @@ void VehicleMotion::on_run(int dir,double speed_r_s)
 /* Function: VehicleMotion::on_turn
  * 车辆转向
  */
-void VehicleMotion::on_turn(int dir, int angle)
+void VehicleMotion::on_turn(int dir, double angle_rad)
 {
-    setAngle(dir,angle);
+    int angleGrade = 0;
+    angle_rad = fabs(angle_rad);
+
+/*软件pwm
+    //左转
+    if(angle_rad>0)
+    {
+        if(angle_rad>(15.0/180.0*3.14159))
+            angleGrade = 4;
+        else if(angle_rad>(11.0/180.0*3.14159))//15.0
+            angleGrade = 3;
+        else if(angle_rad>(7.0/180.0*3.14159))//9.0
+            angleGrade = 2;
+        else if(angle_rad>(2.0/180.0*3.14159))//3.0
+            angleGrade = 1;
+        else
+            angleGrade = 0;
+    }
+    else//右转
+    {
+        angle_rad = fabs(angle_rad);
+        if(angle_rad>(14.0/180.0*3.14159))
+            angleGrade = 3;
+        else if(angle_rad>(7.0/180.0*3.14159))
+            angleGrade = 2;
+        else if(angle_rad>(2.0/180.0*3.14159))
+            angleGrade = 1;
+        else
+            angleGrade = 0;
+    }
+//*/
+
+//*硬件pwm
+    //左转：转向极限是grade==40，angle==18
+    if(1 == dir)
+    {
+        angleGrade = round(40*(angle_rad/(18/180.0*3.14159)));
+        angleGrade = angleGrade>40 ? 40 : angleGrade;
+    }
+    else if(0 == dir)//右转：转向极限是grade==30，angle==22
+    {
+        angleGrade = round(30*(angle_rad/(22/180.0*3.14159)));
+        angleGrade = angleGrade>30 ? 30 : angleGrade;
+    }
+
+//*/
+
+    setAngle(dir,angleGrade);
 }
 
 /* Function: VehicleMotion::on_stop
